@@ -1,0 +1,71 @@
+const Discord = require("discord.js");
+
+
+
+const client = new Discord.Client({
+
+    intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MEMBERS", "MESSAGE_CONTENT"],
+
+    partials: ["CHANNEL", "MESSAGE"]
+
+});
+
+
+
+const token = "MTIyNzI2NDY2MTAwNzc2MTU1OQ.G5kOZM.afi9DAQe9jJYfd9_w-nuFs33RAMKxN5hni-H54";
+
+
+
+client.on('ready', async () => {
+
+    console.log(`Client has been initiated! ${client.user.username}`);
+
+
+
+    // Perform GET request to Chatbot API when bot is ready
+
+    try {
+
+        const fetch = await import('node-fetch');
+
+        const apiKey = "CfO4KAVCt1WaDf_cQSybexVfznHj_eLr";
+
+        const response = await fetch.default('https://api.chatbot.com/v2/stories', {
+
+            method: 'GET',
+
+            headers: {
+
+                'Authorization': `Bearer ${apiKey}`
+
+            }
+
+        });
+
+        const data = await response.json();
+
+        console.log('Chatbot API response:', data);
+
+    } catch (error) {
+
+        console.error('Error fetching data from Chatbot API:', error);
+
+    }
+
+});
+
+
+
+client.on('messageCreate', async (message) => {
+
+    if (message.content.toLowerCase() === "test") {
+
+        message.reply("Test successful!");
+
+    }
+
+});
+
+
+
+client.login(token);
